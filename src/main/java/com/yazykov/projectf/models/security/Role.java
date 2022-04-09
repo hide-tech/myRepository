@@ -14,7 +14,6 @@ public class Role {
     private Long id;
     @Column(name = "name")
     private String name;
-    private String password;
     @Column(name = "created")
     private LocalDateTime created;
     @Column(name = "updated")
