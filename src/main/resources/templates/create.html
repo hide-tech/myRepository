@@ -9,23 +9,18 @@
 <form th:method="POST" th:action="@{/create}" th:object="${user}">
     <label for="firstName">Enter your First Name:</label>
     <input type="text" th:field="*{firstName}" id="firstName"/>
-    <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First Name Error</div>
     <br/>
     <label for="lastName">Enter your Last Name:</label>
     <input type="text" th:field="*{lastName}" id="lastName"/>
-    <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last Name Error</div>
     <br/>
     <label for="username">Enter your username:</label>
     <input type="text" th:field="*{username}" id="username"/>
-    <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
     <br/>
     <label for="email">Enter your email:</label>
     <input type="text" th:field="*{email}" id="email"/>
-    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
     <br/>
-    <label for="password">Enter your email:</label>
-    <input type="text" th:field="*{password}" id="password"/>
-    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Email Error</div>
+    <label for="password">Enter your password:</label>
+    <input type="password" th:field="*{password}" id="password" />
     <br/>
     <input type="submit" value="Create user"/>
 </form>

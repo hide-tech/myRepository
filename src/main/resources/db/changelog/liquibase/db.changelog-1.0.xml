@@ -200,7 +200,7 @@
             </column>
 
             <column name="supplier" type="BIGINT">
-                <constraints nullable="false" foreignKeyName="sp_supplier_id" references="suppliers(id)"/>
+                <constraints nullable="false" foreignKeyName="sp_supplier" references="suppliers(id)"/>
             </column>
         </createTable>
     </changeSet>

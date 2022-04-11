@@ -17,4 +17,7 @@ public class PayInfo {
     private String accountNumber;
     @Column(name = "bik")
     private String bikNumber;
+    @OneToOne
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 }

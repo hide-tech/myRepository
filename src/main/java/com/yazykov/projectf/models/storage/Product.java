@@ -20,7 +20,7 @@ public class Product {
     private Long quantity;
     @Column(name = "supply_date")
     private LocalDate supplyDate;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 }
