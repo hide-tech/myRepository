@@ -1,6 +1,5 @@
 package com.yazykov.projectf.controllers;
 
-import com.yazykov.projectf.dto.UserDto;
 import com.yazykov.projectf.models.security.Status;
 import com.yazykov.projectf.models.security.User;
 import com.yazykov.projectf.repositories.RoleRepository;
@@ -10,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,13 +37,17 @@ public class UserController {
     }
 
     @GetMapping("/create")
-    public String getCreateUserPage(Model model){
-        model.addAttribute("user", new User());
+    public String getCreateUserPage(@ModelAttribute("user") User userdto){
         return "create";
     }
 
     @PostMapping("/create")
-    public String createUser(@ModelAttribute("user") User userdto, Model model){
+    public String createUser(@ModelAttribute("user") @Valid User userdto,
+                             BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()){
+            return "create";
+        }
+
         User user = new User();
         user.setUsername(userdto.getUsername());
         user.setFirstName(userdto.getFirstName());
@@ -54,8 +59,8 @@ public class UserController {
         user.setUpdated(LocalDateTime.now());
         user.setStatus(Status.ACTIVE);
         userRepository.save(user);
-        model.addAttribute("user", user);
-        return "index";
+        model.addAttribute("usernew", user);
+        return "success";
     }
 
 }
