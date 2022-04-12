@@ -25,7 +25,7 @@ public class User {
     private String username;
 
     @NotEmpty(message = "email should not be empty")
-    @Email
+    @Email(message = "invalid email's format")
     @Column(name = "email")
     private String email;
 
