@@ -14,11 +14,11 @@ public class Supplier {
     private Long id;
     @Column(name = "name")
     private String companyName;
-    @OneToOne
-    @JoinColumn(name = "address_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "address")
     private Address address;
-    @OneToOne
-    @JoinColumn(name = "pay_info_id")
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "pay_info")
     private PayInfo payInfo;
     @OneToMany(mappedBy = "supplier")
     private List<Product> products;

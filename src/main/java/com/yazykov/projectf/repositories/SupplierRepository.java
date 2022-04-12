@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
 
-//    @Query(name = "Suppliers.findAllSuppliersWithInfo",
-//        value = "SELECT s FROM Supplier s LEFT JOIN FETCH s.products")
-//    List<Supplier> findAllSuppliers();
+    @Query(name = "Suppliers.findAllSuppliersWithInfo",
+        value = "SELECT s FROM Supplier s LEFT JOIN FETCH s.address")
+    List<Supplier> findAllSuppliersWithAddress();
 }

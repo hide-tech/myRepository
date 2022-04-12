@@ -2,20 +2,19 @@ package com.yazykov.projectf.controllers;
 
 import com.yazykov.projectf.models.security.Status;
 import com.yazykov.projectf.models.security.User;
-import com.yazykov.projectf.repositories.RoleRepository;
-import com.yazykov.projectf.repositories.UserRepository;
+import com.yazykov.projectf.services.RoleService;
 import com.yazykov.projectf.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -23,9 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
     @GetMapping
     public String getHomePage(){
@@ -55,11 +52,11 @@ public class UserController {
         user.setLastName(userdto.getLastName());
         user.setEmail(userdto.getEmail());
         user.setPassword(new BCryptPasswordEncoder().encode(userdto.getPassword()));
-        user.setRoles(List.of(roleRepository.getById(1L)));
+        user.setRoles(roleService.getUserRole());
         user.setCreated(LocalDateTime.now());
         user.setUpdated(LocalDateTime.now());
         user.setStatus(Status.ACTIVE);
-        userRepository.save(user);
+        userService.saveUser(user);
         model.addAttribute("usernew", user);
         return "success";
     }

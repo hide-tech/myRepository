@@ -23,7 +23,4 @@ public class Address {
     private String extension;
     @Column(name = "office")
     private String office;
-    @OneToOne
-    @JoinColumn(name = "supplier_id")
-    private Supplier supplier;
 }
