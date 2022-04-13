@@ -1,6 +1,6 @@
 package com.yazykov.projectf.configs;
 
-import com.yazykov.projectf.services.UserService;
+import com.yazykov.projectf.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

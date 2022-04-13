@@ -18,22 +18,22 @@ public class ProductController {
 
     @GetMapping
     public List<ProductDto> showAllProducts(){
-        return productService.mapToDto(productService.getProductList());
+        return productService.getProductList();
     }
 
     @GetMapping("/sort")
     public List<ProductDto> showAllSortedProducts(){
-        return productService.mapToDto(productService.getSortedProductListByQuantity());
+        return productService.getSortedProductListByQuantity();
     }
 
     @GetMapping("/{id}")
     public ProductDto showProductById(@PathVariable("id") Long id){
-        return productService.mapDtoProduct(productService.getProductById(id));
+        return productService.getProductById(id);
     }
 
     @GetMapping("/byname/{name}")
     public ProductDto showProductByName(@PathVariable("name") String name){
-        return productService.mapDtoProduct(productService.getProductByName(name));
+        return productService.getProductByName(name);
     }
 
 }

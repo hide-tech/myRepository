@@ -16,11 +16,11 @@ public class SupplierController {
 
     @GetMapping("/all")
     public @ResponseBody List<SupplierDto> showAllSuppliers(){
-        return supplierService.convertSuppliersToDto(supplierService.getAllSuppliers());
+        return supplierService.getAllSuppliers();
     }
 
     @GetMapping("/{id}")
     public @ResponseBody SupplierDto showSupplierById(@PathVariable("id") Long id){
-        return supplierService.convertSupplierToDto(supplierService.getSupplierById(id));
+        return supplierService.getSupplierById(id);
     }
 }
