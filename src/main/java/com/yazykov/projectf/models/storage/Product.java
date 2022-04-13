@@ -21,6 +21,6 @@ public class Product {
     @Column(name = "supply_date")
     private LocalDate supplyDate;
     @ManyToOne
-    @JoinColumn(name = "supplier_id")
+    @JoinColumn(name = "supplier")
     private Supplier supplier;
 }
