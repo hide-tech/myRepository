@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Autowired
@@ -41,5 +41,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     public void saveUser(User user){
         userRepository.save(user);
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

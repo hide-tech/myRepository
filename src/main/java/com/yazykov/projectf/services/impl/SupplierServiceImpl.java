@@ -3,12 +3,15 @@ package com.yazykov.projectf.services.impl;
 import com.yazykov.projectf.dto.AddressDto;
 import com.yazykov.projectf.dto.PayInfoDto;
 import com.yazykov.projectf.dto.SupplierDto;
+import com.yazykov.projectf.models.storage.Address;
+import com.yazykov.projectf.models.storage.PayInfo;
 import com.yazykov.projectf.models.storage.Supplier;
 import com.yazykov.projectf.repositories.SupplierRepository;
 import com.yazykov.projectf.services.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,42 @@ public class SupplierServiceImpl implements SupplierService {
 
     public SupplierDto getSupplierById(Long id){
         return convertSupplierToDto(supplierRepository.getById(id));
+    }
+
+    @Override
+    public Supplier save(SupplierDto supplierDto) {
+        Supplier supplier = new Supplier();
+
+        supplier.setCompanyName(supplierDto.getNameDto());
+        supplier.setAddress(extractedAddress(supplierDto));
+        supplier.setPayInfo(extractPayInfo(supplierDto));
+
+        Supplier result = supplierRepository.save(supplier);
+        return result;
+    }
+
+    @Override
+    public void delete(Long id) {
+        supplierRepository.deleteAllById(Collections.singleton(id));
+    }
+
+    private PayInfo extractPayInfo(SupplierDto supplierDto){
+        PayInfo payInfo = new PayInfo();
+        payInfo.setBankName(supplierDto.getPayInfoDto().getBankName());
+        payInfo.setAccountNumber(supplierDto.getPayInfoDto().getAccountNumber());
+        payInfo.setBikNumber(supplierDto.getPayInfoDto().getBikNumber());
+        return payInfo;
+    }
+
+    private Address extractedAddress(SupplierDto supplierDto) {
+        Address address = new Address();
+        address.setCountry(supplierDto.getAddressDto().getCountry());
+        address.setCity(supplierDto.getAddressDto().getCity());
+        address.setStreet(supplierDto.getAddressDto().getStreet());
+        address.setBuilding(supplierDto.getAddressDto().getBuilding());
+        address.setExtension(supplierDto.getAddressDto().getExtension());
+        address.setOffice(supplierDto.getAddressDto().getOffice());
+        return address;
     }
 
     public List<SupplierDto> convertSuppliersToDto(List<Supplier> suppliers){

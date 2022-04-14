@@ -44,11 +44,11 @@ public class User {
 
     @Column(name = "created")
     private LocalDateTime created;
+
     @Column(name = "updated")
-
     private LocalDateTime updated;
-    @Column(name = "status")
 
+    @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
     private Status status;
 

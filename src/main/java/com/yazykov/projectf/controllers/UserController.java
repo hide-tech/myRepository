@@ -1,17 +1,17 @@
 package com.yazykov.projectf.controllers;
 
+import com.yazykov.projectf.dto.LoginDto;
 import com.yazykov.projectf.models.security.Status;
 import com.yazykov.projectf.models.security.User;
 import com.yazykov.projectf.services.RoleService;
 import com.yazykov.projectf.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -23,6 +23,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping
     public String getHomePage(){
@@ -39,6 +41,11 @@ public class UserController {
         return "create";
     }
 
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody LoginDto loginDto){
+        return null;
+    }
+
     @PostMapping("/create")
     public String createUser(@ModelAttribute("user") @Valid User userdto,
                              BindingResult bindingResult, Model model){
@@ -51,7 +58,7 @@ public class UserController {
         user.setFirstName(userdto.getFirstName());
         user.setLastName(userdto.getLastName());
         user.setEmail(userdto.getEmail());
-        user.setPassword(new BCryptPasswordEncoder().encode(userdto.getPassword()));
+        user.setPassword(passwordEncoder.encode(userdto.getPassword()));
         user.setRoles(roleService.getUserRole());
         user.setCreated(LocalDateTime.now());
         user.setUpdated(LocalDateTime.now());
