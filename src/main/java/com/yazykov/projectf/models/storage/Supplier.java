@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -22,4 +23,17 @@ public class Supplier {
     private PayInfo payInfo;
     @OneToMany(mappedBy = "supplier")
     private List<Product> products;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Supplier supplier = (Supplier) o;
+        return Objects.equals(companyName, supplier.companyName) && Objects.equals(address, supplier.address) && Objects.equals(payInfo, supplier.payInfo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(companyName, address, payInfo, products);
+    }
 }

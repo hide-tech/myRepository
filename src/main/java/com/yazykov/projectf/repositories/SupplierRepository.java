@@ -13,4 +13,6 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long> {
     @Query(name = "Suppliers.findAllSuppliersWithInfo",
         value = "SELECT s FROM Supplier s LEFT JOIN FETCH s.address")
     List<Supplier> findAllSuppliersWithAddress();
+
+    Supplier findByCompanyName(String name);
 }

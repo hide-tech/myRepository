@@ -1,12 +1,10 @@
 package com.yazykov.projectf.controllers;
 
 import com.yazykov.projectf.dto.ProductDto;
+import com.yazykov.projectf.models.storage.Product;
 import com.yazykov.projectf.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +32,13 @@ public class ProductController {
     @GetMapping("/byname/{name}")
     public ProductDto showProductByName(@PathVariable("name") String name){
         return productService.getProductByName(name);
+    }
+
+    @PostMapping
+    public String addProductAtStorage(@RequestBody ProductDto productDto){
+        Product product = productService.save(productDto);
+        return String.format("Product %s was successfully save with id = %d",
+                product.getProductName(), product.getId());
     }
 
 }

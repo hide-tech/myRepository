@@ -11,6 +11,7 @@ import com.yazykov.projectf.services.SupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,13 +38,26 @@ public class SupplierServiceImpl implements SupplierService {
     public Supplier save(SupplierDto supplierDto) {
         Supplier supplier = new Supplier();
 
-        supplier.setCompanyName(supplierDto.getNameDto());
+        String supplierName = supplierDto.getNameDto();
+        Supplier resultSupplier = getSupplierByName(supplierName);
 
+        if (resultSupplier!=null){
+            return resultSupplier;
+        }
+
+        supplier.setCompanyName(supplierName);
         supplier.setAddress(addressService.save(supplierDto.getAddressDto()));
         supplier.setPayInfo(payInfoService.save(supplierDto.getPayInfoDto()));
 
+
         Supplier result = supplierRepository.save(supplier);
         return result;
+    }
+
+    @Transactional
+    private Supplier getSupplierByName(String supplierName){
+        Supplier supplier = supplierRepository.findByCompanyName(supplierName);
+        return supplier;
     }
 
     @Override

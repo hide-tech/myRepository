@@ -14,4 +14,6 @@ public interface ProductService {
     public ProductDto getProductById(Long id);
 
     public List<ProductDto> getSortedProductListByQuantity();
+
+    public Product save(ProductDto productDto);
 }
