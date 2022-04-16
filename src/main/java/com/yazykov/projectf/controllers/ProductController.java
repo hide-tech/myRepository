@@ -41,4 +41,12 @@ public class ProductController {
                 product.getProductName(), product.getId());
     }
 
+    @PostMapping("/{id}/{count}")
+    public String changeSomeProduct(@PathVariable("id") Long id, @PathVariable("count") Long count){
+        Product product = productService.subAndSaveQuantity(id, count);
+        productService.checkQuantityBalance();
+        return String.format("Product %s has been successfully changed, balance - %d units",
+                product.getProductName(), product.getQuantity());
+    }
+
 }

@@ -16,4 +16,8 @@ public interface ProductService {
     public List<ProductDto> getSortedProductListByQuantity();
 
     public Product save(ProductDto productDto);
+
+    public Product subAndSaveQuantity(Long id, Long count);
+
+    void checkQuantityBalance();
 }

@@ -9,6 +9,7 @@ import com.yazykov.projectf.models.storage.Supplier;
 import com.yazykov.projectf.repositories.ProductRepository;
 import com.yazykov.projectf.services.ProductService;
 import com.yazykov.projectf.services.SupplierService;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     @Autowired
     private SupplierService supplierService;
+    @Autowired
+    private AmqpTemplate template;
 
     @Transactional
     public List<ProductDto> getProductList(){
@@ -37,7 +40,32 @@ public class ProductServiceImpl implements ProductService {
         return mapDtoProduct(product);
     }
 
+    public Product getProdById(Long id){
+        return productRepository.getById(id);
+    }
 
+    public Product subAndSaveQuantity(Long id, Long count){
+        Product product = getProdById(id);
+
+        if (product==null){
+            return null;
+        }
+
+        Long quantity = product.getQuantity();
+        Long newQuantity = quantity + count;
+        product.setQuantity(newQuantity);
+
+        return productRepository.save(product);
+    }
+
+    @Override
+    public void checkQuantityBalance() {
+        List<Product> products = productRepository.findAll();
+        products.stream().filter(product -> product.getQuantity()<20L)
+                .forEach(product -> template.convertAndSend("processingQueue",
+                        String.format("Product %s with id %d has balance %d units",
+                                product.getProductName(), product.getId(), product.getQuantity())));
+    }
 
     public ProductDto getProductById(Long id){
         return mapDtoProduct(productRepository.getById(id));
